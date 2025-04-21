@@ -1,5 +1,6 @@
 #pragma once
 #include "graphwidget.h"
+#include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QGroupBox>
 #include <QLabel>
@@ -18,6 +19,8 @@ public:
 private slots:
   void onPlotClicked();
   void setupAdditionalPanel();
+  void applySelectedOperation();
+  void resetAdditionalFields();
 
 private:
   QHBoxLayout *mainLayout;
@@ -42,4 +45,8 @@ private:
   QLabel *shiftLabel = nullptr;
   QDoubleSpinBox *shiftSpinBox = nullptr;
   QPushButton *applyShiftButton = nullptr;
+  QComboBox *operationComboBox = nullptr;
+  QLineEdit *operationValueEdit = nullptr;
+
+  QPushButton *undoButton = nullptr;
 };

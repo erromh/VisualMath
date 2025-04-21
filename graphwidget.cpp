@@ -133,3 +133,129 @@ void GraphWidget::startDistanceMeasurement(
   firstPointSelected = false;
   onDistanceComputed = callback;
 }
+
+void GraphWidget::applyOperation(const QString &operation, qreal &value) {
+  if (functionData.isEmpty())
+    return;
+
+  QVector<QPointF> newData = functionData;
+
+  if (operation == "Сдвинуть вверх") {
+    saveStateForUndo();
+    for (auto &p : newData) {
+      p.setY(p.y() + value);
+    }
+    updateGraph();
+
+  } else if (operation == "Сдвинуть вниз") {
+    saveStateForUndo();
+    for (auto &p : newData) {
+      p.setY(p.y() - value);
+    }
+    updateGraph();
+
+  } else if (operation == "Сдвинуть влево") {
+    saveStateForUndo();
+    for (auto &p : newData) {
+      p.setX(p.x() - value);
+    }
+    updateGraph();
+
+  } else if (operation == "Сдвинуть вправо") {
+    saveStateForUndo();
+    for (auto &p : newData) {
+      p.setX(p.x() + value);
+    }
+    updateGraph();
+
+  } else if (operation == "Растянуть по Y") {
+    saveStateForUndo();
+    for (auto &p : newData) {
+      p.setY(p.y() * value);
+    }
+    updateGraph();
+
+  } else if (operation == "Сжать по Y") {
+    saveStateForUndo();
+    for (auto &p : newData) {
+      p.setY(p.y() * value);
+    }
+    updateGraph();
+
+  } else if (operation == "Растянуть по X") {
+    saveStateForUndo();
+    for (auto &p : newData) {
+      p.setX(p.x() * value);
+    }
+    updateGraph();
+
+  } else if (operation == "Сжать по X") {
+    saveStateForUndo();
+    for (auto &p : newData) {
+      p.setX(p.x() * value);
+      updateGraph();
+    }
+
+  } else if (operation == "Отразить по оси X") {
+    saveStateForUndo();
+    for (auto &p : newData) {
+      p.setY(-p.y());
+    }
+    updateGraph();
+
+  } else if (operation == "Отразить по оси Y") {
+    saveStateForUndo();
+    for (auto &p : newData) {
+      p.setX(-p.x());
+    }
+    updateGraph();
+
+  } else if (operation == "Инвертировать X и Y") {
+    saveStateForUndo();
+    for (auto &p : newData) {
+      p = QPointF(p.y(), p.x());
+    }
+    updateGraph();
+  } else {
+    return;
+  }
+
+  functionData = newData;
+  setFunctionData(functionData);
+}
+
+void GraphWidget::updateGraph() {
+  if (functionGraphItem) {
+    scene()->removeItem(functionGraphItem);
+    delete functionGraphItem;
+    functionGraphItem = nullptr;
+  }
+
+  if (currentGraphPoints.size() < 2)
+    return;
+  //  else {
+  //    setFunctionData(currentGraphPoints);
+  //  };
+  QPainterPath path(currentGraphPoints[0]);
+
+  for (int i = 1; i < currentGraphPoints.size(); ++i) {
+    path.lineTo(currentGraphPoints[i]);
+  }
+
+  functionGraphItem = scene()->addPath(path, QPen(Qt::blue, 2));
+
+  scene()->update();
+}
+void GraphWidget::saveStateForUndo() {
+  undoStack.push(currentGraphPoints);
+  qDebug("GraphWidget::saveStateForUndo()()");
+}
+
+void GraphWidget::undoLastAction() {
+  if (!undoStack.empty()) {
+    qDebug("GraphWidget::undoLastAction()");
+    currentGraphPoints = undoStack.top();
+    undoStack.pop();
+    updateGraph();
+  }
+}
