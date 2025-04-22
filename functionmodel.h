@@ -1,6 +1,4 @@
-#ifndef FUNCTIONMODEL_H
-#define FUNCTIONMODEL_H
-
+#pragma once
 #include <QVector>
 
 class FunctionModel {
@@ -11,5 +9,3 @@ public:
 private:
   QVector<double> dataPoints;
 };
-
-#endif // FUNCTIONMODEL_H

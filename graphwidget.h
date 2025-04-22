@@ -1,4 +1,5 @@
 #pragma once
+#include "functiongraphitem.h"
 #include "griditem.h"
 #include <QGraphicsSimpleTextItem>
 #include <QGraphicsView>
@@ -14,7 +15,7 @@ public:
   void startDistanceMeasurement(std::function<void(const QString &)> callback);
   void applyOperation(const QString &operation, qreal &value);
 
-  void saveStateForUndo();
+  void saveStateForUndo(const QVector<QPointF> &data);
   void undoLastAction();
 
 protected:
@@ -40,7 +41,7 @@ private:
 
   std::stack<QVector<QPointF>> undoStack;
   QVector<QPointF> currentGraphPoints;
-  QGraphicsPathItem *functionGraphItem = nullptr;
+  FunctionGraphItem *functionGraphItem = nullptr;
 
 private:
   void updateGraph();

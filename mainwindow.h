@@ -34,19 +34,17 @@ private:
 
   QGroupBox *extraGroup;
 
-  QWidget *additionalPanel = nullptr;
-  QVBoxLayout *additionalPanelLayout = nullptr;
+  QWidget *additionalPanel;
+  QVBoxLayout *additionalPanelLayout;
 
-  // Расстояние
-  QPushButton *distanceButton = nullptr;
-  QTextEdit *distanceResult = nullptr;
+  QPushButton *distanceButton;
+  QTextEdit *distanceResult;
 
-  // Арифметика
-  QLabel *shiftLabel = nullptr;
-  QDoubleSpinBox *shiftSpinBox = nullptr;
-  QPushButton *applyShiftButton = nullptr;
-  QComboBox *operationComboBox = nullptr;
-  QLineEdit *operationValueEdit = nullptr;
+  QLabel *shiftLabel;
+  QDoubleSpinBox *shiftSpinBox;
+  QPushButton *applyShiftButton;
+  QComboBox *operationComboBox;
+  QLineEdit *operationValueEdit;
 
-  QPushButton *undoButton = nullptr;
+  QPushButton *undoButton;
 };
